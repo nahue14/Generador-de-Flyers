@@ -1,0 +1,31 @@
+📦 PRODUCTO 4: Gabinete Outdoor Delta Greentech (-48V)
+📝 Título
+Gabinete Outdoor Delta Greentech Telecomunicaciones Energia
+📋 Descripción breve
+Gabinete metálico para exterior (Outdoor) de alta gama, diseñado específicamente para proteger equipamiento crítico de telecomunicaciones, redes, transmisión y sistemas de energía a la intemperie.
+⭐ Características destacadas
+Protección Térmica y Ambiental: Sistema de ventilación forzada integrado (Outdoor Air Exhaust) con filtros de aire de alta densidad en la puerta para impedir el ingreso de polvo, polen y humedad.
+Distribución de Energía Integrada: Panel superior equipado de fábrica con borneras de distribución y una línea de llaves térmicas individuales para circuitos.
+Seguridad Extrema: Cierre hermético de alta seguridad con varillas de anclaje multipunto y barras de puesta a tierra integradas para descargas atmosféricas.
+Preparado para Telecomunicaciones: Sistema nativo diseñado para operar en corriente continua de -48V (estándar de la industria).
+📐 Especificaciones técnicas
+Capacidad: Rack interno estándar de 19 pulgadas con perfiles perforados regulables.
+Formato de instalación: Exterior / Outdoor (Intemperie).
+Material y acabado: Estructura metálica reforzada con protección ambiental.
+Color:
+Acceso trasero:
+Medidas externas: 2090mm x 780mm x 850mm
+Medidas internas útiles: 1780mm x 535mm x 535mm
+Peso:
+Ancho de montaje: 19 pulgadas.
+
+Cantidad de tomas PDU: [Línea de llaves térmicas individuales].
+Uso: Outdoor (Exterior).
+Origen / Marca: Delta Greentech (Brasil) S/A.
+Accesorios incluidos: Sistema de ventilación Outdoor Air Exhaust, filtros de aire, panel de borneras y térmicas, barras de puesta a tierra y llaves de seguridad multipunto.
+🛠️ Aplicaciones recomendadas
+Nodos de internet (ISPs) y WISP, estaciones base de telefonía celular, radioenlaces, sistemas de cámaras de seguridad (CCTV) urbanas o rurales, resguardo de bancos de baterías y rectificadores.
+📐 Información de placa técnica original
+Modelo de Fábrica: OUTDOOR EXAUSTAO / 12/828.
+Voltaje de Operación: -48V CC (In CC / Out CC).
+Fecha de Fabricación: 12/2014.

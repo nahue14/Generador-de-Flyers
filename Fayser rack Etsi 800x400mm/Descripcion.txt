@@ -1,0 +1,27 @@
+📦 PRODUCTO 3: Rack Fayser Tipo ETSI 800x400 mm
+📝 Título
+Rack Fayser Tipo ETSI 800x400 - Gabinete Telecomunicaciones
+📋 Descripción breve
+Gabinete de telecomunicaciones diseñado bajo normativa europea ETSI, ideal para infraestructuras de fibra óptica y nodos de alta densidad en espacios reducidos o pasillos técnicos.
+⭐ Características destacadas
+Dimensiones de Planta Optimizadas: Sus 800 mm de ancho ofrecen un espacio lateral excepcional para el peinado de cables, mientras que sus 400 mm de profundidad evitan obstruir pasillos técnicos.
+Diseño Ventilado Mesh: Equipado con puertas dobles microperforadas tipo malla que aseguran un flujo de aire óptimo para equipos activos.
+Gestión de Cables Premium: Perfiles internos con amplios canales laterales texturados y ranurados para un guiado impecable de fibra y parches.
+Equipamiento Preinstalado: Cuenta con paneles superiores de distribución/parcheo y organizadores ya fijados en su estructura.
+📐 Especificaciones técnicas
+Capacidad: Alta densidad (Diseño bajo normativa ETSI).
+Formato de instalación: De piso / Sala de servidores.
+Material y acabado: Chapa de acero de alta resistencia con terminación de pintura electroestática en polvo.
+Color: Gris claro / Beige industrial.
+Acceso trasero:
+Medidas externas: 1880mm x 800 mm x 400 mm.
+Medidas internas útiles: 1810mm x 710mm x 350mm
+Peso:
+Ancho de montaje: Perfiles de gestión lateral (Estructura de planta de 800 mm).
+
+Cantidad de tomas PDU:
+Uso: Indoor / Centros de cómputos.
+Origen / Marca: Fayser.
+Accesorios incluidos: Paneles superiores de distribución/parcheo, organizadores internos instalados y cerradura de seguridad integrada.
+🛠️ Aplicaciones recomendadas
+Nodos de Fibra Óptica (FTTH / GPON), centrales telefónicas, backbone de datos, distribución de cableado estructurado de alta densidad, shelters y contenedores tecnológicos.
