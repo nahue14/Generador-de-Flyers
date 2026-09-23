@@ -162,6 +162,8 @@ def procesar_catalogos():
         img_f1 = os.path.join(ruta_producto, "foto1.png")
         img_f2 = os.path.join(ruta_producto, "foto2.png")
         img_f3 = os.path.join(ruta_producto, "foto3.png")
+        img_f4 = os.path.join(ruta_producto, "foto4.png")
+        img_f5 = os.path.join(ruta_producto, "foto5.png")
 
         # =========================================================================
         # 🖼️ FLYER 1: IMPACTO 
@@ -184,7 +186,23 @@ def procesar_catalogos():
             img.thumbnail((550, alto_disponible)) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int((ANCHO - img.width) / 2)
+            x_centro = int((0))
+            y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
+            
+            f1.paste(img, (x_centro, y_centro), mask=img)
+
+        # Pegar Foto 1 manteniendo proporciones
+        if os.path.exists(img_f2):
+            img = Image.open(img_f2).convert('RGBA')
+            
+            # 1. Calculamos el espacio vertical real que dejó el título
+            alto_disponible = max(250, 600 - y_actual)
+            
+            # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
+            img.thumbnail((550, alto_disponible)) 
+            
+            # 3. La centramos milimétricamente en el espacio libre del lienzo
+            x_centro = int(ANCHO-img.width)
             y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
             
             f1.paste(img, (x_centro, y_centro), mask=img)
@@ -206,7 +224,7 @@ def procesar_catalogos():
         d2.text((50, 65), "Características Principales", fill=(255, 255, 255), font=font_titulo)
 
 
-        origen_f2 = img_f2 if os.path.exists(img_f2) else img_f1
+        origen_f2 = img_f3 if os.path.exists(img_f3) else img_f1
         if os.path.exists(origen_f2):
             img = Image.open(origen_f2).convert('RGBA')
             
@@ -214,12 +232,21 @@ def procesar_catalogos():
             img.thumbnail((340, 320))
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(180 + (320 - img.height) / 2)
+            y_centro_f2 = int(180 + (320/2 - img.height) / 2)
+            f2.paste(img, (430, y_centro_f2), mask=img)
+
+        origen_f2 = img_f4 if os.path.exists(img_f4) else img_f1
+        if os.path.exists(origen_f2):
+            img = Image.open(origen_f2).convert('RGBA')
+            
+            # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
+            img.thumbnail((340, 320))
+            
+            # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
+            y_centro_f2 = int(180 + 320 - (img.height) / 4)
             f2.paste(img, (430, y_centro_f2), mask=img)
 
 
-
-        
             
         y_pos = 140
         for item_tit, item_desc in datos['caracteristicas'][:5]:
@@ -250,7 +277,7 @@ def procesar_catalogos():
             d3.line([(50, y_pos_final_valor + 5), (750, y_pos_final_valor + 5)], fill=(40, 50, 70), width=1)
             y_pos = y_pos_final_valor + 15
 
-        origen_f3 = img_f3 if os.path.exists(img_f3) else img_f1
+        origen_f3 = img_f5 if os.path.exists(img_f5) else img_f1
         if os.path.exists(origen_f3):
             img_tecnica = Image.open(origen_f3).convert('RGBA')
             
