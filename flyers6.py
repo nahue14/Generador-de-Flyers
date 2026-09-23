@@ -269,7 +269,7 @@ def procesar_catalogos():
         dibujar_parrafo_dinamico(d3, datos['aplicaciones'], 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)
         d3.rectangle([(50, 680), (750, 755)], fill=(0, 210, 255))
 
-        d3.text((120, 705), "💼 ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
+        d3.text((80, 705), "💼 ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
         aplicar_branding_marcas(f3) 
 
         # 🛠️ Aplicación de logos

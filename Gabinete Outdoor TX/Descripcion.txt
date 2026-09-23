@@ -19,7 +19,7 @@ Medidas internas útiles: 1780mm x 535mm x 535mm
 Peso:
 Ancho de montaje: 19 pulgadas.
 
-Cantidad de tomas PDU: [Línea de llaves térmicas individuales].
+Cantidad de tomas PDU: 11 unidades.
 Uso: Outdoor (Exterior).
 Origen / Marca: Delta Greentech (Brasil) S/A.
 Accesorios incluidos: Sistema de ventilación Outdoor Air Exhaust, filtros de aire, panel de borneras y térmicas, barras de puesta a tierra y llaves de seguridad multipunto.
