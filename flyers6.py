@@ -129,7 +129,7 @@ def aplicar_branding_marcas(imagen_flyer):
         try:
             logo_ml = Image.open(RUTA_LOGO_ML).convert('RGBA')
             logo_ml.thumbnail((220, 70))  # Redimensionar de forma discreta institucional
-            imagen_flyer.paste(logo_ml, (logo_ml.width - 60, 600), mask=logo_ml)
+            imagen_flyer.paste(logo_ml, (0, 800-logo_ml.height), mask=logo_ml)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de Mercado Libre: {e}")
 
@@ -209,8 +209,8 @@ def procesar_catalogos():
         
             
         d1.rectangle([(50, 675), (750, 775)], fill=(255, 165, 0)) # Se bajó un poco el banner para dar espacio al logo de ML
-        d1.text((70, 685), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
-        dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 70, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
+        d1.text((90, 685), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
         
         aplicar_branding_marcas(f1) # 🛠️ Aplicación de logos
         f1.save(os.path.join(ruta_producto, "flyer_1_impacto.jpg"), "JPEG", quality=95)
