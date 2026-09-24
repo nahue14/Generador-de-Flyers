@@ -1,5 +1,7 @@
 import os
 import re
+import cairosvg
+import io
 from PIL import Image, ImageDraw, ImageFont
 
 # Configuración del Directorio Raíz y Tamaño de salida
@@ -8,7 +10,7 @@ ANCHO, ALTO = 800, 800
 
 # 🛠️ RUTAS DE LOS LOGOS GENERALES
 RUTA_LOGO_EMPRESA = "./logo_empresa.png"
-RUTA_LOGO_ML = "./logo_mercadolibre.png"
+RUTA_LOGO_ML = "./logo_mercadolibre.svg"
 
 def parsear_descripcion(ruta_txt):
     """
@@ -127,7 +129,9 @@ def aplicar_branding_marcas(imagen_flyer):
     # 2. Logo de Mercado Libre (Abajo a la derecha, arriba o al lado del CTA)
     if os.path.exists(RUTA_LOGO_ML):
         try:
-            logo_ml = Image.open(RUTA_LOGO_ML).convert('RGBA')
+            png_bytes = cairosvg.svg2png(url=RUTA_LOGO_ML, output_height=140)
+            logo_ml = Image.open(io.BytesIO(png_bytes)).convert('RGBA')
+            
             logo_ml.thumbnail((220, 70))  # Redimensionar de forma discreta institucional
             imagen_flyer.paste(logo_ml, (0, 800-logo_ml.height), mask=logo_ml)
         except Exception as e:
@@ -152,9 +156,11 @@ def procesar_catalogos():
         if not os.path.isdir(ruta_producto) or nombre_producto.startswith('.') or nombre_producto in ['env', 'venv']:
             continue
             
-        ruta_txt = os.path.join(ruta_producto, "descripcion.txt")
+        ruta_txt = os.path.join(ruta_producto, "Descripcion.txt")
         if not os.path.exists(ruta_txt):
-            continue
+            ruta_txt = os.path.join(ruta_producto, "descripcion.txt")
+            if not os.path.exists(ruta_txt):
+                continue
             
         print(f"\n🚀 Procesando campaña adaptativa corporativa para: '{nombre_producto}'")
         datos = parsear_descripcion(ruta_txt)
