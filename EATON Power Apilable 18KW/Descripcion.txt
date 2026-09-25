@@ -1,16 +1,16 @@
 📦 PRODUCTO 2: Gabinete Industrial Eaton
 📝 Título
-Gabinete Industrial Eaton Con Extractores - Ideal UPS O Baterías
+Gabinete Industrial Eaton Con Extractores 
 📋 Descripción breve
 Gabinete metálico reforzado de primera marca, diseñado originalmente para infraestructura de energía crítica y optimizado para el armado de tableros eléctricos o bancos de baterías de alta potencia.
 ⭐ Características destacadas
-Refrigeración Activa: Incorpora dos turbinas/extractores de aire traseros con rejilla de protección metálica en la contrapuerta para asegurar un flujo constante.
-Ingreso Técnico de Cables: Cuenta con 10 prensaestopas metálicos en el lateral para un acceso ordenado y estanco de conductores de gran calibre.
-Componentes Internos Incluidos: Equipado con borneras de conexión montadas sobre riel DIN, cableado interno organizado y canaletas plásticas ranuradas.
-Seguridad Industrial: Puerta frontal con cerradura de manija robusta para el resguardo seguro del equipamiento interior.
+Refrigeración Activa: Incorpora dos coolers/extractores de aire traseros con rejilla de protección metálica en la contrapuerta.
+Ingreso Técnico de Cables: Cuenta con 10 prensacable metálicos para un acceso ordenado y estanco de conductores de gran calibre.
+Componentes Internos Incluidos: Equipado con borneras de conexión montadas sobre riel DIN para un cableado interno organizado.
+Seguridad Industrial: Puerta frontal con sensor final de carrera y cerradura de manija robusta seguridad de los equipos.
 📐 Especificaciones técnicas
 Capacidad: Ideal para sistemas UPS / Banco de baterías de hasta 18 kW / 20 kVA.
-Ancho de montaje:
+Ancho de montaje: 19 pulgadas.
 Formato de instalación: De piso.
 Material y acabado: Chapa con pintura epoxi apto para entornos industriales.
 Color: Gris claro
@@ -18,9 +18,9 @@ Acceso trasero: Contrapuerta con rejillas y extractores.
 Medidas externas:71cm x 60cm x 66cm
 Medidas internas útiles:50cm x 50cm x 57cm
 Peso: 40kg
-Cantidad de tomas PDU:
+Cantidad de tomas PDU: zapatilla metalica con tomacorrientes.
 Uso: Industrial / Equipamiento de energía.
 Origen / Marca: Eaton original.
-Accesorios incluidos: Dos extractores/turbinas, 10 prensaestopas laterales, borneras sobre riel DIN y canaletas ranuradas.
+Accesorios incluidos: Dos coolers/extractores, 10 prensacables de gran calibre, borneras sobre riel DIN y sensor de apertura de puerta.
 🛠️ Aplicaciones recomendadas
 Armado de tableros de automatización o distribución industrial, alojamiento de sistemas UPS modulares, inversores o proyectos de energías renovables (bancos de baterías).

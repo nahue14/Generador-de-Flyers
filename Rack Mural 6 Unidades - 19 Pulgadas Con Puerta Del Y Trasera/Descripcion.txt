@@ -1,6 +1,6 @@
-📦 PRODUCTO 5: Rack Mural 19" 6U – EXSEI SA
+📦 PRODUCTO 5: Rack Mural 19" 6U
 📝 Título
-Rack Mural 19 Pulgadas 6U Reacondicionado
+Rack Mural 19 Pulgadas 6U 
 📋 Descripción breve
 Gabinete para montaje en pared de 6 Unidades (6U) y 19 pulgadas de ancho, ideal para infraestructuras indoor de networking, redes de datos y fibra óptica.
 ⭐ Características destacadas
@@ -11,16 +11,16 @@ Ingreso Ordenado de Cables: Dispone de aberturas preparadas para la entrada y sa
 Capacidad: 6 Unidades de rack (6U). Estándar de 19 pulgadas 
 Formato de instalación: Amurable a la pared (se recomienda usar ménsulas, no incluidas).
 Material y acabado: Estructura metálica reforzada.
-Color:
+Color: Gris claro.
 Acceso trasero: Puerta trasera ciega.
 Medidas externas: 36 cm x 57 cm x 73 cm.
 Medidas internas útiles: 30 cm x 48cm x 60 cm.
 Peso: 23 Kg.
 Ancho de montaje: Estándar de 19 pulgadas (48,26 cm útil).
 
-Cantidad de tomas PDU: [No incluye zapatilla]
+Cantidad de tomas PDU: No incluye tomacorrientes.
 Uso: Indoor (Interior).
-Origen / Marca: EXSEI S.A.
+Origen / Marca:
 Accesorios incluidos: Llaves de seguridad (No incluye tornillos para las guías).
 🛠️ Aplicaciones recomendadas
 Instalación de equipamientos de networking, redes de datos, fibra óptica y todos aquellos componentes pasivos normalizados o no.
