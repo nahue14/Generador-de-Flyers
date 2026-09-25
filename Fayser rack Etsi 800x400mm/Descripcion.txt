@@ -4,24 +4,24 @@ Rack Fayser Tipo ETSI 800x400 - Gabinete Telecomunicaciones
 📋 Descripción breve
 Gabinete de telecomunicaciones diseñado bajo normativa europea ETSI, ideal para infraestructuras de fibra óptica y nodos de alta densidad en espacios reducidos o pasillos técnicos.
 ⭐ Características destacadas
-Dimensiones de Planta Optimizadas: Sus 800 mm de ancho ofrecen un espacio lateral para organizar cableado, mientras que sus 400 mm de profundidad evitan obstruir pasillos técnicos.
+Dimensiones de Planta Optimizadas: Con 800 mm de ancho para organizar cableado y 400 mm de profundidad para evitar obstruir pasillos técnicos.
 Diseño Ventilado Mesh: Equipado con puertas dobles microperforadas tipo malla para mejor refrigeracion de equipos activos.
 Gestión de Cables Premium: Perfiles internos para equipos rackeables y guiado de cables o fibras.
 Equipamiento Preinstalado: Cuenta con paneles superiores con borneras de distribución y una línea de llaves térmicas individuales para circuitos.
 📐 Especificaciones técnicas
-Capacidad: Alta densidad (Diseño bajo normativa ETSI).
+Capacidad: 40 unidades de rack. (Diseño bajo normativa ETSI).
 Formato de instalación: De piso / Sala de servidores.
 Material y acabado: Chapa de acero de alta resistencia con terminación de pintura texturada.
 Color: Gris claro / Beige industrial.
 Acceso trasero: Tapas desmontables.
 Medidas externas: 1880mm x 800 mm x 400 mm.
 Medidas internas útiles: 1810mm x 710mm x 350mm
-Peso: 60 kg aprox.
+Peso: 65 kg aprox.
 Ancho de montaje: 21 pulgadas.
 
-Cantidad de tomas PDU:
+Cantidad de tomas PDU: No incluye tomacorrientes.
 Uso: Indoor / Centros de cómputos.
 Origen / Marca: Fayser.
-Accesorios incluidos: Paneles superiores de distribución/parcheo, organizadores internos instalados y cerradura de seguridad integrada.
+Accesorios incluidos: Paneles superiores de distribución, organizadores internos instalados y cerradura de seguridad integrada.
 🛠️ Aplicaciones recomendadas
 Nodos de Fibra Óptica (FTTH / GPON), centrales telefónicas, backbone de datos, distribución de cableado estructurado de alta densidad, shelters y contenedores tecnológicos.

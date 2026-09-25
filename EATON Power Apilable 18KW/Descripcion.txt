@@ -4,7 +4,7 @@ Gabinete Industrial Eaton Con Extractores
 📋 Descripción breve
 Gabinete metálico reforzado de primera marca, diseñado originalmente para infraestructura de energía crítica y optimizado para el armado de tableros eléctricos o bancos de baterías de alta potencia.
 ⭐ Características destacadas
-Refrigeración Activa: Incorpora dos coolers/extractores de aire traseros con rejilla de protección metálica en la contrapuerta.
+Refrigeración Activa: Incorpora dos coolers/extractores de aire con rejilla de protección metálica en la contrapuerta.
 Ingreso Técnico de Cables: Cuenta con 10 prensacable metálicos para un acceso ordenado y estanco de conductores de gran calibre.
 Componentes Internos Incluidos: Equipado con borneras de conexión montadas sobre riel DIN para un cableado interno organizado.
 Seguridad Industrial: Puerta frontal con sensor final de carrera y cerradura de manija robusta seguridad de los equipos.
@@ -18,7 +18,7 @@ Acceso trasero: Contrapuerta con rejillas y extractores.
 Medidas externas:71cm x 60cm x 66cm
 Medidas internas útiles:50cm x 50cm x 57cm
 Peso: 40kg
-Cantidad de tomas PDU: zapatilla metalica con tomacorrientes.
+Cantidad de tomas PDU: No incluye tomacorrientes.
 Uso: Industrial / Equipamiento de energía.
 Origen / Marca: Eaton original.
 Accesorios incluidos: Dos coolers/extractores, 10 prensacables de gran calibre, borneras sobre riel DIN y sensor de apertura de puerta.

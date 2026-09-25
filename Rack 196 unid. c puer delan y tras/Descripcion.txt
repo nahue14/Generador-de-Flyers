@@ -7,18 +7,18 @@ con estructura de doble cuerpo pivotante, ideal para un acceso total y cómodo a
 ⭐ Características destacadas
 Diseño Pivotante: Estructura de doble sección con bisagras traseras y cerradura independiente que simplifica mantenimiento.
 Puerta Frontal: Equipada con marco metálico, visor central para monitoreo y cerradura incorporada.
-Ventilación Pasiva: Ranuras de aireación superiores e inferiores diseñadas para optimizar el flujo térmico y proteger los componentes.
+Ventilación Pasiva: Ranuras de aireación superiores e inferiores para optimizar el flujo térmico y proteger los componentes.
 Zapatilla Incluida: Incorpora una zapatilla multitoma interna en la base posterior para la conexión directa de equipos.
 Perfiles Regulables: Guías internas estándar de 19 pulgadas ajustables en profundidad.
 📐 Especificaciones técnicas
-Capacidad: 6 Unidades de rack (6U). Estándar de 19 pulgadas.
+Capacidad: 6 Unidades de rack. Estándar de 19 pulgadas.
 Formato de instalación: Mural (fijación a pared) o sobre mesada.
 Material y acabado: Acero de alta resistencia con pintura epoxi termoenformada texturada.
 Color: Gris claro.
 Acceso trasero: Apertura pivotante mediante bisagra con cerradura independiente.
 Medidas externas: 35cm x 57cm x 73cm
 Medidas internas útiles: 28cm x 48cm x 57cm
-Peso:
+Peso: 25kg aprox.
 Ancho de montaje: Estándar de 19 pulgadas.
 
 Cantidad de tomas PDU: 5 tomacorrientes con proteccion termomagnetica.
