@@ -178,7 +178,24 @@ def procesar_catalogos():
         # Pegar Foto 1 manteniendo proporciones
         if os.path.exists(img_f1):
             img = Image.open(img_f1).convert('RGBA')
-            
+            caja_delimitadora = img.getbbox()
+
+            if caja_delimitadora:
+                # Recortar la imagen eliminando el fondo vacío
+                imagen_recortada = img.crop(caja_delimitadora)
+                img = imagen_recortada
+                # Definir el nuevo tamaño para maximizar el objeto
+                # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
+                ancho_objetivo = 350
+                proporcion = ancho_objetivo / float(img.width)
+                alto_objetivo = int(float(img.height) * proporcion)
+                
+                # 4. Redimensionar con máxima calidad
+                img = img.resize(
+                    (ancho_objetivo, alto_objetivo), 
+                    Image.Resampling.LANCZOS
+                )
+
             # 1. Calculamos el espacio vertical real que dejó el título
             alto_disponible = max(250, 600 - y_actual)
             
@@ -186,7 +203,7 @@ def procesar_catalogos():
             img.thumbnail((550, alto_disponible)) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int((0))
+            x_centro = int((ANCHO/2-img.width-10))
             y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
             
             f1.paste(img, (x_centro, y_centro), mask=img)
@@ -194,7 +211,24 @@ def procesar_catalogos():
         # Pegar Foto 1 manteniendo proporciones
         if os.path.exists(img_f2):
             img = Image.open(img_f2).convert('RGBA')
-            
+            caja_delimitadora = img.getbbox()
+
+            if caja_delimitadora:
+                # Recortar la imagen eliminando el fondo vacío
+                imagen_recortada = img.crop(caja_delimitadora)
+                img = imagen_recortada
+                # Definir el nuevo tamaño para maximizar el objeto
+                # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
+                ancho_objetivo = 350
+                proporcion = ancho_objetivo / float(img.width)
+                alto_objetivo = int(float(img.height) * proporcion)
+                
+                # 4. Redimensionar con máxima calidad
+                img = img.resize(
+                    (ancho_objetivo, alto_objetivo), 
+                    Image.Resampling.LANCZOS
+                )
+                
             # 1. Calculamos el espacio vertical real que dejó el título
             alto_disponible = max(250, 600 - y_actual)
             
@@ -202,7 +236,7 @@ def procesar_catalogos():
             img.thumbnail((550, alto_disponible)) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int(ANCHO-img.width)
+            x_centro = int(ANCHO/2+10)
             y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
             
             f1.paste(img, (x_centro, y_centro), mask=img)
@@ -227,23 +261,35 @@ def procesar_catalogos():
         origen_f2 = img_f3 if os.path.exists(img_f3) else img_f1
         if os.path.exists(origen_f2):
             img = Image.open(origen_f2).convert('RGBA')
+            caja_delimitadora = img.getbbox()
+
+            if caja_delimitadora:
+                # Recortar la imagen eliminando el fondo vacío
+                imagen_recortada = img.crop(caja_delimitadora)
+                img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
             img.thumbnail((340, 320))
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(180 + (320/2 - img.height) / 2)
+            y_centro_f2 = int(195 + (320/2 - img.height) / 2)
             f2.paste(img, (430, y_centro_f2), mask=img)
 
         origen_f2 = img_f4 if os.path.exists(img_f4) else img_f1
         if os.path.exists(origen_f2):
             img = Image.open(origen_f2).convert('RGBA')
+            caja_delimitadora = img.getbbox()
+
+            if caja_delimitadora:
+                # Recortar la imagen eliminando el fondo vacío
+                imagen_recortada = img.crop(caja_delimitadora)
+                img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
             img.thumbnail((340, 320))
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(180 + 320 - (img.height) / 4)
+            y_centro_f2 = int(180 + 320 - (img.height) / 5)
             f2.paste(img, (430, y_centro_f2), mask=img)
 
 
@@ -280,6 +326,12 @@ def procesar_catalogos():
         origen_f3 = img_f5 if os.path.exists(img_f5) else img_f1
         if os.path.exists(origen_f3):
             img_tecnica = Image.open(origen_f3).convert('RGBA')
+            caja_delimitadora = img.getbbox()
+
+            if caja_delimitadora:
+                # Recortar la imagen eliminando el fondo vacío
+                imagen_recortada = img.crop(caja_delimitadora)
+                img = imagen_recortada
             
             # Recuadro máximo inferior (Ancho max: 240, Alto max: 180)
             img_tecnica.thumbnail((240, 180))
