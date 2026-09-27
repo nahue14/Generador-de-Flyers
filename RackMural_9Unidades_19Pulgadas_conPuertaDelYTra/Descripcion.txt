@@ -1,26 +1,26 @@
-📦 PRODUCTO 6: Rack Mural 19" 9U – EXSEI SA
+📦 PRODUCTO 6: Rack Mural 19" 9U
 📝 Título
 Rack Mural 19 Pulgadas 9U 
 📋 Descripción breve
 Gabinete para montaje en pared de gran capacidad con 9 Unidades (9U) de rack disponibles, ideal para concentrar equipamiento de telecomunicaciones y redes corporativas de forma segura.
 ⭐ Características destacadas
-Capacidad Ampliada: 9 Unidades de rack con perfiles utilizables en la parte frontal y posterior para una máxima densidad de componentes.
-Cerramiento Seguro: Puerta delantera con protector plástico y puerta trasera ciega, ambas preparadas para resguardo indoor.
-Ingresos de Conectividad: Accesos precalados superiores e inferiores para acometidas y peinado ordenado de cables.
+Capacidad Ampliada: 9 Unidades de rack con perfiles utilizables en la parte frontal y posterior.
+Cerramiento Seguro: Puerta delantera con protector transparente y puerta trasera ciega, ambas preparadas para resguardo indoor.
+Ingresos de Conectividad: Accesos desmontable con tornillos en la parte superiores e inferiores para acometidas y ordenado de cables.
 📐 Especificaciones técnicas
 Capacidad: 9 Unidades de rack (9U). Estándar de 19 pulgadas 
 Formato de instalación: Amurable a la pared (se recomienda usar ménsulas, no incluidas).
 Material y acabado: Estructura metálica de alta resistencia.
-Color:
+Color: Gris claro.
 Acceso trasero: Puerta trasera ciega.
 Medidas externas: 49 cm x 57.5 cm x 73.5 cm
 Medidas internas útiles: 41 cm x 48 cm x 60 cm
 Peso: 26 Kg.
 Ancho de montaje: Estándar de 19 pulgadas (48,26 cm útil).
 
-Cantidad de tomas PDU:
+Cantidad de tomas PDU: No incluye tomacorrientes.
 Uso: Indoor (Interior).
-Origen / Marca: EXSEI S.A. (Procedencia original de equipamiento corporativo).
+Origen / Marca: 
 Accesorios incluidos: Llaves de seguridad.
 🛠️ Aplicaciones recomendadas
 Instalación avanzada de equipamientos de networking, redes corporativas de datos, backbone de fibra óptica y componentes pasivos normalizados o especiales.
