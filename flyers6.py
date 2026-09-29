@@ -4,7 +4,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 # Configuración del Directorio Raíz y Tamaño de salida
 DIRECTORIO_RAIZ = "./"
-ANCHO, ALTO = 800, 800
+ANCHO_PROCESO, ALTO_PROCESO = 1600, 1600
+ANCHO_FINAL, ALTO_FINAL = 800, 800
 
 # 🛠️ RUTAS DE LOS LOGOS GENERALES
 RUTA_LOGO_EMPRESA = "./logo_empresa.png"
@@ -95,7 +96,7 @@ def ajustar_texto(texto, fuente, ancho_maximo):
         lineas.append(linea_actual)
     return lineas
 
-def dibujar_parrafo_dinamico(draw, texto, x, y, fuente, color, ancho_max, interlineado=25):
+def dibujar_parrafo_dinamico(draw, texto, x, y, fuente, color, ancho_max, interlineado=50):
     """Dibuja un texto usando wrap automático y devuelve la nueva posición Y final."""
     lineas = ajustar_texto(texto, fuente, ancho_max)
     for linea in lineas:
@@ -104,14 +105,18 @@ def dibujar_parrafo_dinamico(draw, texto, x, y, fuente, color, ancho_max, interl
     return y
 
 def crear_fondo_tecnologico():
-    fondo = Image.new("RGB", (ANCHO, ALTO), color=(10, 20, 38))
-    draw = ImageDraw.Draw(fondo)
-    for y in range(ALTO):
-        r = int(10 + (25 - 10) * (y / ALTO))
-        g = int(20 + (35 - 20) * (y / ALTO))
-        b = int(38 + (55 - 38) * (y / ALTO))
-        draw.line([(0, y), (ANCHO, y)], fill=(r, g, b))
-    return fondo
+    # Creamos un lienzo base muy chico de 2x2 píxeles con los colores de los extremos
+    base = Image.new("RGB", (2, 2))
+    # Ponemos el color de arriba en los dos píxeles superiores y el de abajo en los inferiores
+    base.putpixel((0, 0), (10, 20, 38))
+    base.putpixel((1, 0), (10, 20, 38))
+    base.putpixel((0, 1), (25, 35, 55))
+    base.putpixel((1, 1), (25, 35, 55))
+    
+    # Al estirarlo a 1600x1600 con BILINEAR o LANCZOS, el motor de Pillow 
+    # genera un degradado perfectamente suave, eliminando las rayas por completo.
+    return base.resize((ANCHO_PROCESO, ALTO_PROCESO), Image.Resampling.BILINEAR)
+
 
 def aplicar_branding_marcas(imagen_flyer):
     """🛠️ NUEVA FUNCIÓN: Inserta de forma limpia los logos corporativos si existen."""
@@ -119,8 +124,8 @@ def aplicar_branding_marcas(imagen_flyer):
     if os.path.exists(RUTA_LOGO_EMPRESA):
         try:
             logo_emp = Image.open(RUTA_LOGO_EMPRESA).convert('RGBA')
-            logo_emp.thumbnail((240, 90), Image.Resampling.LANCZOS)  # Redimensionar manteniendo proporción max 120x45
-            imagen_flyer.paste(logo_emp, (ANCHO - logo_emp.width - 50, 30), mask=logo_emp)
+            logo_emp.thumbnail((480, 180), Image.Resampling.LANCZOS)  # Redimensionar manteniendo proporción max 120x45
+            imagen_flyer.paste(logo_emp, (ANCHO_PROCESO - logo_emp.width - 100, 60), mask=logo_emp)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de la empresa: {e}")
 
@@ -128,18 +133,19 @@ def aplicar_branding_marcas(imagen_flyer):
     if os.path.exists(RUTA_LOGO_ML):
         try:
             logo_ml = Image.open(RUTA_LOGO_ML).convert('RGBA')
-            logo_ml.thumbnail((220, 70), Image.Resampling.LANCZOS)  # Redimensionar de forma discreta institucional
-            imagen_flyer.paste(logo_ml, (0, 800-logo_ml.height), mask=logo_ml)
+            logo_ml.thumbnail((440, 140), Image.Resampling.LANCZOS)  # Redimensionar de forma discreta institucional
+            imagen_flyer.paste(logo_ml, (0, 1600-logo_ml.height), mask=logo_ml)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de Mercado Libre: {e}")
 
 def cargar_fuentes():
     try:
         # Incrementamos los tamaños para la técnica 2X (Super-Sampling)
-        font_titulo = ImageFont.truetype("arialbd.ttf", 28)
-        font_sub = ImageFont.truetype("arialbd.ttf", 20)
-        font_cuerpo = ImageFont.truetype("arial.ttf", 17)
-        font_destaque = ImageFont.truetype("arialbd.ttf", 17)
+        font_titulo = ImageFont.truetype("Montserrat-Bold.ttf", 56)
+        font_sub = ImageFont.truetype("Montserrat-Bold.ttf", 40)
+        font_cuerpo = ImageFont.truetype("Montserrat-Regular.ttf", 34)
+        font_destaque = ImageFont.truetype("Montserrat-Bold.ttf", 34)
+        print("  ℹ️ Fuentes Montserrat cargadas correctamente.")
     except:
         font_titulo = font_sub = font_cuerpo = font_destaque = ImageFont.load_default()
     return font_titulo, font_sub, font_cuerpo, font_destaque
@@ -178,10 +184,10 @@ def procesar_catalogos():
         f1 = crear_fondo_tecnologico()
         d1 = ImageDraw.Draw(f1)
         
-        d1.text((50, 35), "PRODUCTO DESTACADO", fill=(0, 210, 255), font=font_cuerpo)
+        d1.text((100, 70), "PRODUCTO DESTACADO", fill=(0, 210, 255), font=font_cuerpo)
 
         texto_limpio = limpiar_emojis(datos['titulo']) # Quita emojis del texto
-        y_actual = dibujar_parrafo_dinamico(d1, texto_limpio, 50, 65, font_titulo, (255, 255, 255), ancho_max=400, interlineado=35)
+        y_actual = dibujar_parrafo_dinamico(d1, texto_limpio, 100, 130, font_titulo, (255, 255, 255), ancho_max=800, interlineado=70)
 
         # Pegar Foto 1 manteniendo proporciones
         if os.path.exists(img_f1):
@@ -194,7 +200,7 @@ def procesar_catalogos():
                 img = imagen_recortada
                 # Definir el nuevo tamaño para maximizar el objeto
                 # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
-                ancho_objetivo = 350
+                ancho_objetivo = 750
                 proporcion = ancho_objetivo / float(img.width)
                 alto_objetivo = int(float(img.height) * proporcion)
                 
@@ -205,14 +211,14 @@ def procesar_catalogos():
                 )
 
             # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(250, 600 - y_actual)
+            alto_disponible = max(500, 1200 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible), Image.Resampling.LANCZOS) 
+            img.thumbnail((1100, alto_disponible), Image.Resampling.LANCZOS) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int((ANCHO/2-img.width-10))
-            y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
+            x_centro = int((ANCHO_PROCESO/2-img.width-20))
+            y_centro = int(y_actual + 30 + (alto_disponible - img.height) / 2)
             
             f1.paste(img, (x_centro, y_centro), mask=img)
 
@@ -227,7 +233,7 @@ def procesar_catalogos():
                 img = imagen_recortada
                 # Definir el nuevo tamaño para maximizar el objeto
                 # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
-                ancho_objetivo = 350
+                ancho_objetivo = 750
                 proporcion = ancho_objetivo / float(img.width)
                 alto_objetivo = int(float(img.height) * proporcion)
                 
@@ -238,33 +244,34 @@ def procesar_catalogos():
                 )
                 
             # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(250, 600 - y_actual)
+            alto_disponible = max(500, 1200 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible), Image.Resampling.LANCZOS) 
+            img.thumbnail((1100, alto_disponible), Image.Resampling.LANCZOS) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int(ANCHO/2+10)
-            y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
+            x_centro = int(ANCHO_PROCESO/2+20)
+            y_centro = int(y_actual + 30 + (alto_disponible - img.height) / 2)
             
             f1.paste(img, (x_centro, y_centro), mask=img)
         
             
-        d1.rectangle([(50, 675), (750, 775)], fill=(255, 165, 0)) # Se bajó un poco el banner para dar espacio al logo de ML
-        d1.text((90, 685), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        d1.rectangle([(100, 1350), (1500, 1550)], fill=(255, 165, 0)) # Se bajó un poco el banner para dar espacio al logo de ML
+        d1.text((180, 1370), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
         texto_limpio = limpiar_emojis(datos['descripcion_breve']) # Quita emojis del texto
-        dibujar_parrafo_dinamico(d1, texto_limpio, 90, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
+        dibujar_parrafo_dinamico(d1, texto_limpio, 180, 1420, font_cuerpo, (10, 20, 38), ancho_max=1320, interlineado=44)
         
         aplicar_branding_marcas(f1) # 🛠️ Aplicación de logos
-        f1.save(os.path.join(ruta_producto, "flyer_1_impacto.jpg"), "JPEG", quality=95)
+        flyer_final = f1.resize((ANCHO_FINAL, ALTO_FINAL), Image.Resampling.LANCZOS)
+        flyer_final.save(os.path.join(ruta_producto, "flyer_1_impacto.png"), "PNG", quality=95)
 
         # =========================================================================
         # 🖼️ FLYER 2: CARACTERÍSTICAS
         # =========================================================================
         f2 = crear_fondo_tecnologico()
         d2 = ImageDraw.Draw(f2)
-        d2.text((50, 35), "VENTAJAS COMPETITIVAS", fill=(0, 210, 255), font=font_cuerpo)
-        d2.text((50, 65), "Características Principales", fill=(255, 255, 255), font=font_titulo)
+        d2.text((100, 70), "VENTAJAS COMPETITIVAS", fill=(0, 210, 255), font=font_cuerpo)
+        d2.text((100, 130), "Características Principales", fill=(255, 255, 255), font=font_titulo)
 
 
         origen_f2 = img_f3 if os.path.exists(img_f3) else img_f1
@@ -278,11 +285,11 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320), Image.Resampling.LANCZOS)
+            img.thumbnail((680, 640), Image.Resampling.LANCZOS)
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(195 + (320/2 - img.height) / 2)
-            f2.paste(img, (430, y_centro_f2), mask=img)
+            y_centro_f2 = int(390 + (640/2 - img.height) / 2)
+            f2.paste(img, (860, y_centro_f2), mask=img)
 
         origen_f2 = img_f4 if os.path.exists(img_f4) else img_f1
         if os.path.exists(origen_f2):
@@ -295,46 +302,47 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320), Image.Resampling.LANCZOS)
+            img.thumbnail((680, 640), Image.Resampling.LANCZOS)
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(180 + 320 - (img.height) / 5)
-            f2.paste(img, (430, y_centro_f2), mask=img)
+            y_centro_f2 = int(360 + 640 - (img.height) / 5)
+            f2.paste(img, (860, y_centro_f2), mask=img)
 
 
             
-        y_pos = 140
+        y_pos = 280
         for item_tit, item_desc in datos['caracteristicas'][:5]:
             texto_limpio = limpiar_emojis(item_tit) # Quita emojis del texto
-            d2.text((50, y_pos), f"{texto_limpio}", fill=(255, 165, 0), font=font_destaque)
-            y_pos += 22
+            d2.text((100, y_pos), f"{texto_limpio}", fill=(255, 165, 0), font=font_destaque)
+            y_pos += 44
             if item_desc:
                 texto_limpio = limpiar_emojis(item_desc) # Quita emojis del texto
-                y_pos = dibujar_parrafo_dinamico(d2, texto_limpio, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=360, interlineado=22)
-            y_pos += 15
+                y_pos = dibujar_parrafo_dinamico(d2, texto_limpio, 100, y_pos, font_cuerpo, (220, 220, 220), ancho_max=720, interlineado=44)
+            y_pos += 30
 
         aplicar_branding_marcas(f2) # 🛠️ Aplicación de logos
-        f2.save(os.path.join(ruta_producto, "flyer_2_caracteristicas.jpg"), "JPEG", quality=95)
+        flyer_final = f2.resize((ANCHO_FINAL, ALTO_FINAL), Image.Resampling.LANCZOS)
+        flyer_final.save(os.path.join(ruta_producto, "flyer_2_caracteristicas.png"), "PNG", quality=95)
 
         # =========================================================================
         # 🖼️ FLYER 3: FICHA TÉCNICA
         # =========================================================================
         f3 = crear_fondo_tecnologico()
         d3 = ImageDraw.Draw(f3)
-        d3.text((50, 35), "DETALLES COMPLEMENTARIOS", fill=(0, 210, 255), font=font_cuerpo)
-        d3.text((50, 65), "Especificaciones Técnicas", fill=(255, 255, 255), font=font_titulo)
+        d3.text((100, 70), "DETALLES COMPLEMENTARIOS", fill=(0, 210, 255), font=font_cuerpo)
+        d3.text((100, 130), "Especificaciones Técnicas", fill=(255, 255, 255), font=font_titulo)
         
-        y_pos = 140
+        y_pos = 280
 
 
         for etiqueta, valor in datos['especificaciones'][:8]:
             texto_limpio = limpiar_emojis(etiqueta) # Quita emojis del texto
-            d3.text((50, y_pos), f"{texto_limpio}", fill=(180, 180, 180), font=font_destaque)
+            d3.text((100, y_pos), f"{texto_limpio}", fill=(180, 180, 180), font=font_destaque)
             texto_limpio = limpiar_emojis(valor) # Quita emojis del texto
-            y_pos_final_valor = dibujar_parrafo_dinamico(d3, texto_limpio, 240, y_pos, font_cuerpo, (255, 255, 255), ancho_max=510, interlineado=22)
+            y_pos_final_valor = dibujar_parrafo_dinamico(d3, texto_limpio, 480, y_pos, font_cuerpo, (255, 255, 255), ancho_max=1020, interlineado=44)
 
-            d3.line([(50, y_pos_final_valor + 5), (750, y_pos_final_valor + 5)], fill=(40, 50, 70), width=1)
-            y_pos = y_pos_final_valor + 15
+            d3.line([(100, y_pos_final_valor + 10), (1500, y_pos_final_valor + 10)], fill=(40, 50, 70), width=1)
+            y_pos = y_pos_final_valor + 30
 
         origen_f3 = img_f5 if os.path.exists(img_f5) else img_f1
         if os.path.exists(origen_f3):
@@ -347,25 +355,27 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo inferior (Ancho max: 240, Alto max: 180)
-            img_tecnica.thumbnail((240, 180), Image.Resampling.LANCZOS)
+            img_tecnica.thumbnail((480, 360), Image.Resampling.LANCZOS)
             
             # Centramos la imagen en el espacio derecho junto a los usos recomendados
-            y_centro_f3 = int((y_pos + 10) + (180 - img_tecnica.height) / 2)
-            f3.paste(img_tecnica, (510, y_centro_f3), mask=img_tecnica)
+            y_centro_f3 = int((y_pos + 20) + (360 - img_tecnica.height) / 2)
+            f3.paste(img_tecnica, (1020, y_centro_f3), mask=img_tecnica)
 
 
         
         if datos['aplicaciones']:
-            d3.text((50, y_pos + 10), "Usos recomendados:", fill=(255, 165, 0), font=font_destaque)
+            d3.text((100, y_pos + 20), "Usos recomendados:", fill=(255, 165, 0), font=font_destaque)
         texto_limpio = limpiar_emojis(datos['aplicaciones']) # Quita emojis del texto
-        dibujar_parrafo_dinamico(d3, texto_limpio, 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)
-        d3.rectangle([(50, 680), (750, 755)], fill=(0, 210, 255))
+        dibujar_parrafo_dinamico(d3, texto_limpio, 100, y_pos + 70, font_cuerpo, (200, 200, 200), ancho_max=880, interlineado=44)
+        d3.rectangle([(100, 1360), (1500, 1510)], fill=(0, 210, 255))
 
-        d3.text((80, 705), "ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
+        d3.text((160, 1410), "ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
         aplicar_branding_marcas(f3) 
 
         # 🛠️ Aplicación de logos
-        f3.save(os.path.join(ruta_producto, "flyer_3_tecnico.jpg"), "JPEG", quality=95)
+        flyer_final = f3.resize((ANCHO_FINAL, ALTO_FINAL), Image.Resampling.LANCZOS)
+                
+        flyer_final.save(os.path.join(ruta_producto, "flyer_3_tecnico.png"), "PNG", quality=95)
         print("  ✅ Los 3 flyers corporativos finales fueron generados.")
 
 procesar_catalogos()

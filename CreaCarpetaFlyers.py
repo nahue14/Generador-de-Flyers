@@ -39,7 +39,8 @@ def extraer_y_agrupar_flyers():
         for base_name in flyers_nombres:
             img_encontrada = None
 
-            for ext in (".jpg", ".jpeg", ".png", ".webp"):
+           # for ext in (".jpg", ".jpeg", ".png", ".webp"):
+            for ext in (".png"):
                 candidato = os.path.join(prod_dir, f"{base_name}{ext}")
                 if os.path.exists(candidato):
 
