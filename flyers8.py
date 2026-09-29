@@ -379,7 +379,7 @@ def obtener_estilos_base_css():
         height: 150px;
     }
     .apps-box {
-        width: 80%;
+        width: 60%;
     }
     .apps-title {
         color: #ffa500;
@@ -393,7 +393,7 @@ def obtener_estilos_base_css():
         line-height: 1.4;
     }
     .tech-img {
-        width: 85%;
+        width: 75%;
         max-height: 100%;
         object-fit: contain;
     }
