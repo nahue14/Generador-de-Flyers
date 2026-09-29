@@ -194,86 +194,50 @@ def procesar_catalogos():
         
         y_actual = dibujar_parrafo_dinamico(d1, datos['titulo'], 50, 65, font_titulo, (255, 255, 255), ancho_max=400, interlineado=35)
 
-        # Pegar Foto 1 manteniendo proporciones
-        if os.path.exists(img_f1):
-            img = Image.open(img_f1).convert('RGBA')
-            caja_delimitadora = img.getbbox()
-
-            if caja_delimitadora:
-                # Recortar la imagen eliminando el fondo vacío
-                imagen_recortada = img.crop(caja_delimitadora)
-                img = imagen_recortada
-                # Definir el nuevo tamaño para maximizar el objeto
-                # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
-                ancho_objetivo = 350
-                proporcion = ancho_objetivo / float(img.width)
-                alto_objetivo = int(float(img.height) * proporcion)
-                
-                # 4. Redimensionar con máxima calidad
-                img = img.resize(
-                    (ancho_objetivo, alto_objetivo), 
-                    Image.Resampling.LANCZOS
-                )
-
-            # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(180, 570 - y_actual)
-            
-            # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible)) 
-            
-            # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int((ANCHO/2-img.width-10))
-            y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
-            
-            f1.paste(img, (x_centro, y_centro), mask=img)
-
-        # Pegar Foto 1 manteniendo proporciones
-        if os.path.exists(img_f2):
-            img = Image.open(img_f2).convert('RGBA')
-            caja_delimitadora = img.getbbox()
-
-            if caja_delimitadora:
-                # Recortar la imagen eliminando el fondo vacío
-                imagen_recortada = img.crop(caja_delimitadora)
-                img = imagen_recortada
-                # Definir el nuevo tamaño para maximizar el objeto
-                # Ejemplo: Definir un ancho fijo de 1920px manteniendo la proporción
-                ancho_objetivo = 350
-                proporcion = ancho_objetivo / float(img.width)
-                alto_objetivo = int(float(img.height) * proporcion)
-                
-                # 4. Redimensionar con máxima calidad
-                img = img.resize(
-                    (ancho_objetivo, alto_objetivo), 
-                    Image.Resampling.LANCZOS
-                )
-                
-            # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(250, 570 - y_actual)
-            
-            # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible)) 
-            
-            # 3. La centramos milimétricamente en el espacio libre del lienzo
-            x_centro = int(ANCHO/2+10)
-            y_centro = int(y_actual + 15 + (alto_disponible - img.height) / 2)
-            
-            f1.paste(img, (x_centro, y_centro), mask=img)
-        
-            
-        # 📐 CÁLCULO AUTOMÁTICO DE ALTURA Y POSICIÓN                                   
-        # 1. Medimos cuántas líneas reales ocupa la descripción                        
-        lineas_desc = ajustar_texto(datos['descripcion_breve'], font_cuerpo, 640)                                                                           
+        # 📐 1. CÁLCULO PREVIO DEL BANNER NARANJA (Para no pisar las fotos)            
+        lineas_desc = ajustar_texto(datos['descripcion_breve'], font_cuerpo, 640)      
         alto_banner = 40 + (len(lineas_desc) * 22) + 15                                
-                                                                                           
-        # 2. Termina siempre a Y=710 (justo arriba del logo de Mercado Libre con margen)
-        y_banner_fin = 710
-        y_banner_inicio = y_banner_fin - alto_banner
-  
-        # 3. Dibujamos el cuadro adaptado a su contenido
-        d1.rounded_rectangle([(50, y_banner_inicio), (750, y_banner_fin)], radius=18, fill=(255, 165, 0)) 
-        d1.text((90, y_banner_inicio + 12), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        y_banner_fin = 710                                                             
+        y_banner_inicio = y_banner_fin - alto_banner                                   
+                                                                                       
+        # Espacio vertical real disponible para las fotos (con margen superior e inferior)                                                                                
+        alto_disponible = max(180, (y_banner_inicio - 15) - (y_actual + 15))           
+                                                                                       
+        # 📸 Pegar Foto 1 (Slot izquierdo: X de 40 a 370)                              
+        if os.path.exists(img_f1):                                                     
+            img = Image.open(img_f1).convert('RGBA')                                   
+            caja_delimitadora = img.getbbox()                                          
+            if caja_delimitadora:                                                      
+                img = img.crop(caja_delimitadora)                                      
+                ancho_objetivo = 310                                                   
+                proporcion = ancho_objetivo / float(img.width)                         
+                alto_objetivo = int(float(img.height) * proporcion)                    
+                img = img.resize((ancho_objetivo, alto_objetivo), Image.Resampling.LANCZOS)                                                                                 
+                                                                                       
+            img.thumbnail((310, alto_disponible))                                      
+            x_centro = int(40 + (330 - img.width) / 2)                                 
+            y_centro = int((y_actual + 15) + (alto_disponible - img.height) / 2)       
+            f1.paste(img, (x_centro, y_centro), mask=img)                              
+                                                                                       
+        # 📸 Pegar Foto 2 (Slot derecho: X de 430 a 760)                               
+        if os.path.exists(img_f2):                                                     
+            img = Image.open(img_f2).convert('RGBA')                                   
+            caja_delimitadora = img.getbbox()                                          
+            if caja_delimitadora:                                                      
+                img = img.crop(caja_delimitadora)                                      
+                ancho_objetivo = 310                                                   
+                proporcion = ancho_objetivo / float(img.width)                         
+                alto_objetivo = int(float(img.height) * proporcion)
+                img = img.resize((ancho_objetivo, alto_objetivo), Image.Resampling.LANCZOS)
 
+            img.thumbnail((310, alto_disponible))
+            x_centro = int(430 + (330 - img.width) / 2)
+            y_centro = int((y_actual + 15) + (alto_disponible - img.height) / 2)       
+            f1.paste(img, (x_centro, y_centro), mask=img)
+
+        # 🎨 Dibujamos el cuadro naranja en su posición calculada
+        d1.rounded_rectangle([(50, y_banner_inicio), (750, y_banner_fin)], radius=18, fill=(255, 165, 0))
+        d1.text((90, y_banner_inicio + 12), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
         dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, y_banner_inicio + 38, font_cuerpo, (10, 20, 38), ancho_max=640, interlineado=22)
 
         
@@ -289,39 +253,34 @@ def procesar_catalogos():
         d2.text((50, 65), "Características Principales", fill=(255, 255, 255), font=font_titulo)
 
 
-        origen_f2 = img_f3 if os.path.exists(img_f3) else img_f1
-        if os.path.exists(origen_f2):
-            img = Image.open(origen_f2).convert('RGBA')
-            caja_delimitadora = img.getbbox()
-
-            if caja_delimitadora:
-                # Recortar la imagen eliminando el fondo vacío
-                imagen_recortada = img.crop(caja_delimitadora)
-                img = imagen_recortada
-            
-            # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320))
-            
-            # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(195 + (320/2 - img.height) / 2)
-            f2.paste(img, (430, y_centro_f2), mask=img)
-
-        origen_f2 = img_f4 if os.path.exists(img_f4) else img_f1
-        if os.path.exists(origen_f2):
-            img = Image.open(origen_f2).convert('RGBA')
-            caja_delimitadora = img.getbbox()
-
-            if caja_delimitadora:
-                # Recortar la imagen eliminando el fondo vacío
-                imagen_recortada = img.crop(caja_delimitadora)
-                img = imagen_recortada
-            
-            # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320))
-            
-            # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
-            y_centro_f2 = int(180 + 320 - (img.height) / 5)
-            f2.paste(img, (430, y_centro_f2), mask=img)
+        # 📸 PROCESAMIENTO INTELIGENTE DE FOTOS EN FLYER 2 (Sin superposiciones)       
+        fotos_f2 = []
+        if os.path.exists(img_f3): fotos_f2.append(img_f3)
+        if os.path.exists(img_f4): fotos_f2.append(img_f4)
+        if not fotos_f2 and os.path.exists(img_f1): fotos_f2.append(img_f1)            
+  
+        if len(fotos_f2) >= 2:
+            # Caso 2 fotos: Slot Superior (140..420) y Slot Inferior (450..730)        
+            slots = [(140, 420), (450, 730)]
+            for idx, ruta_foto in enumerate(fotos_f2[:2]):
+                img_f = Image.open(ruta_foto).convert('RGBA')
+                bbox = img_f.getbbox()
+                if bbox: img_f = img_f.crop(bbox)
+    
+                img_f.thumbnail((300, 250))
+                y_ini, y_fin = slots[idx]
+                y_pos_foto = int(y_ini + ((y_fin - y_ini) - img_f.height) / 2)         
+                x_pos_foto = int(440 + (320 - img_f.width) / 2)
+                f2.paste(img_f, (x_pos_foto, y_pos_foto), mask=img_f)
+        elif len(fotos_f2) == 1:
+            # Caso 1 foto: Centrada en todo el alto disponible (160..700)
+            img_f = Image.open(fotos_f2[0]).convert('RGBA')
+            bbox = img_f.getbbox()
+            if bbox: img_f = img_f.crop(bbox)
+            img_f.thumbnail((310, 480))
+            y_pos_foto = int(160 + (540 - img_f.height) / 2)
+            x_pos_foto = int(440 + (320 - img_f.width) / 2)
+            f2.paste(img_f, (x_pos_foto, y_pos_foto), mask=img_f)
 
 
             
@@ -331,7 +290,7 @@ def procesar_catalogos():
 
             y_pos += 22
             if item_desc:
-                y_pos = dibujar_parrafo_dinamico(d2, item_desc, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=360, interlineado=22)
+                y_pos = dibujar_parrafo_dinamico(d2, item_desc, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=330, interlineado=22)
             y_pos += 15
 
         aplicar_branding_marcas(f2) # 🛠️ Aplicación de logos

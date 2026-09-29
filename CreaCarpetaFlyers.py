@@ -16,8 +16,14 @@ def extraer_y_agrupar_flyers():
     # Crear la carpeta de destino principal si no existe
     os.makedirs(DEST_DIR, exist_ok=True)
 
-    # Buscar todas las subcarpetas (productos)
-    productos_dirs = [os.path.join(BASE_DIR, d) for d in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, d))]
+    # Buscar todas las subcarpetas (productos) ordenadas e ignorando carpetas de sistema
+    productos_dirs = [
+        os.path.join(BASE_DIR, d) 
+        for d in sorted(os.listdir(BASE_DIR)) 
+        if os.path.isdir(os.path.join(BASE_DIR, d)) 
+        and not d.startswith('.') 
+        and d not in ['__pycache__', 'FlayersCatalogo', 'env', 'venv']
+    ]
 
     # Nombres base de los archivos que queremos buscar y extraer
     flyers_nombres = [
