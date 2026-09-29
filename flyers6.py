@@ -271,8 +271,9 @@ def procesar_catalogos():
         y_banner_inicio = y_banner_fin - alto_banner
   
         # 3. Dibujamos el cuadro adaptado a su contenido
-        d1.rectangle([(50, y_banner_inicio), (750, y_banner_fin)], fill=(255, 165, 0)) 
-        d1.text((90, y_banner_inicio + 12), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        d1.rounded_rectangle([(50, y_banner_inicio), (750, y_banner_fin)], radius=18, fill=(255, 165, 0)) 
+        d1.text((90, y_banner_inicio + 12), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+
         dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, y_banner_inicio + 38, font_cuerpo, (10, 20, 38), ancho_max=640, interlineado=22)
 
         
@@ -326,7 +327,8 @@ def procesar_catalogos():
             
         y_pos = 140
         for item_tit, item_desc in datos['caracteristicas'][:5]:
-            d2.text((50, y_pos), f"🔹 {item_tit}", fill=(255, 165, 0), font=font_destaque)
+            d2.text((50, y_pos), f"• {item_tit}", fill=(255, 165, 0),font=font_destaque)
+
             y_pos += 22
             if item_desc:
                 y_pos = dibujar_parrafo_dinamico(d2, item_desc, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=360, interlineado=22)
@@ -375,7 +377,7 @@ def procesar_catalogos():
             d3.text((50, y_pos + 10), "• Usos recomendados:", fill=(255, 165, 0), font=font_destaque)                                                                      
                                                                                            
         dibujar_parrafo_dinamico(d3, datos['aplicaciones'], 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)                                         
-        d3.rectangle([(50, 650), (750, 710)], fill=(0, 210, 255))
+        d3.rounded_rectangle([(50, 650), (750, 710)], radius=16, fill=(0, 210, 255))   
   
         # 4. Centrado milimétrico del texto dentro del banner celeste (sin desbordes ni emojis rotos)
         txt_banner3 = "ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB"
