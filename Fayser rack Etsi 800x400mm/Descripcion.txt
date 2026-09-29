@@ -11,7 +11,7 @@ Equipamiento Preinstalado: Cuenta con paneles superiores con borneras de distrib
 📐 Especificaciones técnicas
 Capacidad: 40 unidades de rack. (Diseño bajo normativa ETSI).
 Formato de instalación: De piso / Sala de servidores.
-Material y acabado: Chapa de acero de alta resistencia con terminación de pintura texturada.
+Material y acabado: Chapa de acero con terminación de pintura texturada.
 Color: Gris claro / Beige industrial.
 Acceso trasero: Tapas desmontables.
 Medidas externas: 1880mm x 800 mm x 400 mm.
