@@ -119,7 +119,7 @@ def aplicar_branding_marcas(imagen_flyer):
     if os.path.exists(RUTA_LOGO_EMPRESA):
         try:
             logo_emp = Image.open(RUTA_LOGO_EMPRESA).convert('RGBA')
-            logo_emp.thumbnail((240, 90))  # Redimensionar manteniendo proporción max 120x45
+            logo_emp.thumbnail((240, 90), Image.Resampling.LANCZOS)  # Redimensionar manteniendo proporción max 120x45
             imagen_flyer.paste(logo_emp, (ANCHO - logo_emp.width - 50, 30), mask=logo_emp)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de la empresa: {e}")
@@ -128,13 +128,14 @@ def aplicar_branding_marcas(imagen_flyer):
     if os.path.exists(RUTA_LOGO_ML):
         try:
             logo_ml = Image.open(RUTA_LOGO_ML).convert('RGBA')
-            logo_ml.thumbnail((220, 70))  # Redimensionar de forma discreta institucional
+            logo_ml.thumbnail((220, 70), Image.Resampling.LANCZOS)  # Redimensionar de forma discreta institucional
             imagen_flyer.paste(logo_ml, (0, 800-logo_ml.height), mask=logo_ml)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de Mercado Libre: {e}")
 
 def cargar_fuentes():
     try:
+        # Incrementamos los tamaños para la técnica 2X (Super-Sampling)
         font_titulo = ImageFont.truetype("arialbd.ttf", 28)
         font_sub = ImageFont.truetype("arialbd.ttf", 20)
         font_cuerpo = ImageFont.truetype("arial.ttf", 17)
@@ -142,6 +143,12 @@ def cargar_fuentes():
     except:
         font_titulo = font_sub = font_cuerpo = font_destaque = ImageFont.load_default()
     return font_titulo, font_sub, font_cuerpo, font_destaque
+
+
+def limpiar_emojis(texto):
+    # Remueve caracteres fuera del plano básico (como los emojis)
+    return "".join(c for c in texto if ord(c) <= 65535)
+
 
 def procesar_catalogos():
     font_titulo, font_sub, font_cuerpo, font_destaque = cargar_fuentes()
@@ -172,8 +179,9 @@ def procesar_catalogos():
         d1 = ImageDraw.Draw(f1)
         
         d1.text((50, 35), "PRODUCTO DESTACADO", fill=(0, 210, 255), font=font_cuerpo)
-        
-        y_actual = dibujar_parrafo_dinamico(d1, datos['titulo'], 50, 65, font_titulo, (255, 255, 255), ancho_max=400, interlineado=35)
+
+        texto_limpio = limpiar_emojis(datos['titulo']) # Quita emojis del texto
+        y_actual = dibujar_parrafo_dinamico(d1, texto_limpio, 50, 65, font_titulo, (255, 255, 255), ancho_max=400, interlineado=35)
 
         # Pegar Foto 1 manteniendo proporciones
         if os.path.exists(img_f1):
@@ -200,7 +208,7 @@ def procesar_catalogos():
             alto_disponible = max(250, 600 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible)) 
+            img.thumbnail((550, alto_disponible), Image.Resampling.LANCZOS) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
             x_centro = int((ANCHO/2-img.width-10))
@@ -233,7 +241,7 @@ def procesar_catalogos():
             alto_disponible = max(250, 600 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
-            img.thumbnail((550, alto_disponible)) 
+            img.thumbnail((550, alto_disponible), Image.Resampling.LANCZOS) 
             
             # 3. La centramos milimétricamente en el espacio libre del lienzo
             x_centro = int(ANCHO/2+10)
@@ -243,8 +251,9 @@ def procesar_catalogos():
         
             
         d1.rectangle([(50, 675), (750, 775)], fill=(255, 165, 0)) # Se bajó un poco el banner para dar espacio al logo de ML
-        d1.text((90, 685), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
-        dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
+        d1.text((90, 685), "RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        texto_limpio = limpiar_emojis(datos['descripcion_breve']) # Quita emojis del texto
+        dibujar_parrafo_dinamico(d1, texto_limpio, 90, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
         
         aplicar_branding_marcas(f1) # 🛠️ Aplicación de logos
         f1.save(os.path.join(ruta_producto, "flyer_1_impacto.jpg"), "JPEG", quality=95)
@@ -269,7 +278,7 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320))
+            img.thumbnail((340, 320), Image.Resampling.LANCZOS)
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
             y_centro_f2 = int(195 + (320/2 - img.height) / 2)
@@ -286,7 +295,7 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo lateral (Ancho max: 340, Alto max: 320)
-            img.thumbnail((340, 320))
+            img.thumbnail((340, 320), Image.Resampling.LANCZOS)
             
             # La alineamos a la derecha (X=430) y centramos verticalmente en su bloque
             y_centro_f2 = int(180 + 320 - (img.height) / 5)
@@ -296,10 +305,12 @@ def procesar_catalogos():
             
         y_pos = 140
         for item_tit, item_desc in datos['caracteristicas'][:5]:
-            d2.text((50, y_pos), f"🔹 {item_tit}", fill=(255, 165, 0), font=font_destaque)
+            texto_limpio = limpiar_emojis(item_tit) # Quita emojis del texto
+            d2.text((50, y_pos), f"{texto_limpio}", fill=(255, 165, 0), font=font_destaque)
             y_pos += 22
             if item_desc:
-                y_pos = dibujar_parrafo_dinamico(d2, item_desc, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=360, interlineado=22)
+                texto_limpio = limpiar_emojis(item_desc) # Quita emojis del texto
+                y_pos = dibujar_parrafo_dinamico(d2, texto_limpio, 50, y_pos, font_cuerpo, (220, 220, 220), ancho_max=360, interlineado=22)
             y_pos += 15
 
         aplicar_branding_marcas(f2) # 🛠️ Aplicación de logos
@@ -317,8 +328,10 @@ def procesar_catalogos():
 
 
         for etiqueta, valor in datos['especificaciones'][:8]:
-            d3.text((50, y_pos), f"{etiqueta}", fill=(180, 180, 180), font=font_destaque)
-            y_pos_final_valor = dibujar_parrafo_dinamico(d3, valor, 240, y_pos, font_cuerpo, (255, 255, 255), ancho_max=510, interlineado=22)
+            texto_limpio = limpiar_emojis(etiqueta) # Quita emojis del texto
+            d3.text((50, y_pos), f"{texto_limpio}", fill=(180, 180, 180), font=font_destaque)
+            texto_limpio = limpiar_emojis(valor) # Quita emojis del texto
+            y_pos_final_valor = dibujar_parrafo_dinamico(d3, texto_limpio, 240, y_pos, font_cuerpo, (255, 255, 255), ancho_max=510, interlineado=22)
 
             d3.line([(50, y_pos_final_valor + 5), (750, y_pos_final_valor + 5)], fill=(40, 50, 70), width=1)
             y_pos = y_pos_final_valor + 15
@@ -334,7 +347,7 @@ def procesar_catalogos():
                 img = imagen_recortada
             
             # Recuadro máximo inferior (Ancho max: 240, Alto max: 180)
-            img_tecnica.thumbnail((240, 180))
+            img_tecnica.thumbnail((240, 180), Image.Resampling.LANCZOS)
             
             # Centramos la imagen en el espacio derecho junto a los usos recomendados
             y_centro_f3 = int((y_pos + 10) + (180 - img_tecnica.height) / 2)
@@ -343,12 +356,12 @@ def procesar_catalogos():
 
         
         if datos['aplicaciones']:
-            d3.text((50, y_pos + 10), "⚙️ Usos recomendados:", fill=(255, 165, 0), font=font_destaque)
-
-        dibujar_parrafo_dinamico(d3, datos['aplicaciones'], 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)
+            d3.text((50, y_pos + 10), "Usos recomendados:", fill=(255, 165, 0), font=font_destaque)
+        texto_limpio = limpiar_emojis(datos['aplicaciones']) # Quita emojis del texto
+        dibujar_parrafo_dinamico(d3, texto_limpio, 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)
         d3.rectangle([(50, 680), (750, 755)], fill=(0, 210, 255))
 
-        d3.text((80, 705), "💼 ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
+        d3.text((80, 705), "ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
         aplicar_branding_marcas(f3) 
 
         # 🛠️ Aplicación de logos
