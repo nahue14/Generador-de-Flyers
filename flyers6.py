@@ -9,7 +9,7 @@ DIRECTORIO_RAIZ = "./"
 ANCHO, ALTO = 800, 800
 
 # 🛠️ RUTAS DE LOS LOGOS GENERALES
-RUTA_LOGO_EMPRESA = "./logo_empresa.png"
+RUTA_LOGO_EMPRESA = "./logo_empresa.svg"
 RUTA_LOGO_ML = "./logo_mercadolibre.svg"
 
 def parsear_descripcion(ruta_txt):
@@ -120,29 +120,42 @@ def aplicar_branding_marcas(imagen_flyer):
     # 1. Logo de la Empresa (Arriba a la Derecha, equilibrando la categoría izquierda)
     if os.path.exists(RUTA_LOGO_EMPRESA):
         try:
-            logo_emp = Image.open(RUTA_LOGO_EMPRESA).convert('RGBA')
-            logo_emp.thumbnail((240, 90))  # Redimensionar manteniendo proporción max 120x45
+            png_bytes = cairosvg.svg2png(url=RUTA_LOGO_EMPRESA, output_width=1000)     
+            logo_emp = Image.open(io.BytesIO(png_bytes)).convert('RGBA')
+                
+            # Recorta el espacio transparente vacío de la hoja de Inkscape             
+            bbox = logo_emp.getbbox()
+            if bbox:
+                logo_emp = logo_emp.crop(bbox)
+  
+            logo_emp.thumbnail((240, 90))  # Redimensionar manteniendo proporción      
             imagen_flyer.paste(logo_emp, (ANCHO - logo_emp.width - 50, 30), mask=logo_emp)
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de la empresa: {e}")
-
-    # 2. Logo de Mercado Libre (Abajo a la derecha, arriba o al lado del CTA)
+    # 2. Logo de Mercado Libre (Abajo a la izquierda, recortado y visible)             
     if os.path.exists(RUTA_LOGO_ML):
         try:
-            png_bytes = cairosvg.svg2png(url=RUTA_LOGO_ML, output_height=140)
+            png_bytes = cairosvg.svg2png(url=RUTA_LOGO_ML, output_width=600)           
             logo_ml = Image.open(io.BytesIO(png_bytes)).convert('RGBA')
-            
-            logo_ml.thumbnail((220, 70))  # Redimensionar de forma discreta institucional
-            imagen_flyer.paste(logo_ml, (0, 800-logo_ml.height), mask=logo_ml)
+                
+            # Recorta el sobrante transparente de la hoja Inkscape
+            bbox_ml = logo_ml.getbbox()
+            if bbox_ml:
+                logo_ml = logo_ml.crop(bbox_ml)
+  
+            logo_ml.thumbnail((140, 60))
+            # Lo ubicamos en la esquina inferior izquierda con margen visible          
+            imagen_flyer.paste(logo_ml, (35, 800 - logo_ml.height - 15), mask=logo_ml) 
         except Exception as e:
             print(f"  ⚠️ No se pudo pegar el logo de Mercado Libre: {e}")
 
+
 def cargar_fuentes():
     try:
-        font_titulo = ImageFont.truetype("arialbd.ttf", 28)
-        font_sub = ImageFont.truetype("arialbd.ttf", 20)
-        font_cuerpo = ImageFont.truetype("arial.ttf", 17)
-        font_destaque = ImageFont.truetype("arialbd.ttf", 17)
+        font_titulo = ImageFont.truetype("DejaVuSans-Bold.ttf", 28)
+        font_sub = ImageFont.truetype("DejaVuSans-Bold.ttf", 20)
+        font_cuerpo = ImageFont.truetype("DejaVuSans.ttf", 17)
+        font_destaque = ImageFont.truetype("DejaVuSans-Bold.ttf", 17)
     except:
         font_titulo = font_sub = font_cuerpo = font_destaque = ImageFont.load_default()
     return font_titulo, font_sub, font_cuerpo, font_destaque
@@ -203,7 +216,7 @@ def procesar_catalogos():
                 )
 
             # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(250, 600 - y_actual)
+            alto_disponible = max(180, 570 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
             img.thumbnail((550, alto_disponible)) 
@@ -236,7 +249,7 @@ def procesar_catalogos():
                 )
                 
             # 1. Calculamos el espacio vertical real que dejó el título
-            alto_disponible = max(250, 600 - y_actual)
+            alto_disponible = max(250, 570 - y_actual)
             
             # 2. Achicamos la foto al recuadro máximo permitido sin deformarla
             img.thumbnail((550, alto_disponible)) 
@@ -248,9 +261,20 @@ def procesar_catalogos():
             f1.paste(img, (x_centro, y_centro), mask=img)
         
             
-        d1.rectangle([(50, 675), (750, 775)], fill=(255, 165, 0)) # Se bajó un poco el banner para dar espacio al logo de ML
-        d1.text((90, 685), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
-        dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, 710, font_cuerpo, (10, 20, 38), ancho_max=660, interlineado=22)
+        # 📐 CÁLCULO AUTOMÁTICO DE ALTURA Y POSICIÓN                                   
+        # 1. Medimos cuántas líneas reales ocupa la descripción                        
+        lineas_desc = ajustar_texto(datos['descripcion_breve'], font_cuerpo, 640)                                                                           
+        alto_banner = 40 + (len(lineas_desc) * 22) + 15                                
+                                                                                           
+        # 2. Termina siempre a Y=710 (justo arriba del logo de Mercado Libre con margen)
+        y_banner_fin = 710
+        y_banner_inicio = y_banner_fin - alto_banner
+  
+        # 3. Dibujamos el cuadro adaptado a su contenido
+        d1.rectangle([(50, y_banner_inicio), (750, y_banner_fin)], fill=(255, 165, 0)) 
+        d1.text((90, y_banner_inicio + 12), "📝 RESUMEN:", fill=(10, 20, 38), font=font_destaque)
+        dibujar_parrafo_dinamico(d1, datos['descripcion_breve'], 90, y_banner_inicio + 38, font_cuerpo, (10, 20, 38), ancho_max=640, interlineado=22)
+
         
         aplicar_branding_marcas(f1) # 🛠️ Aplicación de logos
         f1.save(os.path.join(ruta_producto, "flyer_1_impacto.jpg"), "JPEG", quality=95)
@@ -322,39 +346,43 @@ def procesar_catalogos():
         y_pos = 140
 
 
-        for etiqueta, valor in datos['especificaciones'][:8]:
-            d3.text((50, y_pos), f"{etiqueta}", fill=(180, 180, 180), font=font_destaque)
-            y_pos_final_valor = dibujar_parrafo_dinamico(d3, valor, 240, y_pos, font_cuerpo, (255, 255, 255), ancho_max=510, interlineado=22)
+        for etiqueta, valor in datos['especificaciones'][:8]:                          
+            d3.text((50, y_pos), f"{etiqueta}", fill=(180, 180, 180), font=font_destaque)                                                                      
+            # 1. Separamos la columna a X=290 (para que etiquetas largas no pisen el valor)                                                                                   
+            y_pos_final_valor = dibujar_parrafo_dinamico(d3, valor, 290, y_pos, font_cuerpo, (255, 255, 255), ancho_max=460, interlineado=22)                            
+                                                                                           
+            d3.line([(50, y_pos_final_valor + 5), (750, y_pos_final_valor + 5)], fill=(40, 50, 70), width=1)                                                              
+            y_pos = y_pos_final_valor + 15                                             
+                                                                                           
+        origen_f3 = img_f5 if os.path.exists(img_f5) else img_f1                       
+        if os.path.exists(origen_f3):                                                  
+            img_tecnica = Image.open(origen_f3).convert('RGBA')                        
+            caja_delimitadora = img_tecnica.getbbox()                                  
+                                                                                           
+            if caja_delimitadora:                                                      
+                imagen_recortada = img_tecnica.crop(caja_delimitadora)                 
+                img_tecnica = imagen_recortada                                         
+                                                                                           
+            # 2. Limitamos la altura para que la foto NUNCA toque el cuadro celeste (tope en Y=640)                                                                          
+            alto_disp_f3 = max(100, 640 - (y_pos + 10))                                
+            img_tecnica.thumbnail((230, min(140, alto_disp_f3)))                       
+                                                                                           
+            y_centro_f3 = int((y_pos + 10) + (alto_disp_f3 - img_tecnica.height) / 2)  
+            f3.paste(img_tecnica, (510, y_centro_f3), mask=img_tecnica)                
+                                                                                           
+        if datos['aplicaciones']:                                                      
+            # 3. Viñeta limpia sin emojis rotos                                        
+            d3.text((50, y_pos + 10), "• Usos recomendados:", fill=(255, 165, 0), font=font_destaque)                                                                      
+                                                                                           
+        dibujar_parrafo_dinamico(d3, datos['aplicaciones'], 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)                                         
+        d3.rectangle([(50, 650), (750, 710)], fill=(0, 210, 255))
+  
+        # 4. Centrado milimétrico del texto dentro del banner celeste (sin desbordes ni emojis rotos)
+        txt_banner3 = "ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB"
+        w_tb3 = font_destaque.getbbox(txt_banner3)[2]
+        x_banner3 = int(50 + (700 - w_tb3) / 2)
+        d3.text((x_banner3, 672), txt_banner3, fill=(10, 20, 38), font=font_destaque)  
 
-            d3.line([(50, y_pos_final_valor + 5), (750, y_pos_final_valor + 5)], fill=(40, 50, 70), width=1)
-            y_pos = y_pos_final_valor + 15
-
-        origen_f3 = img_f5 if os.path.exists(img_f5) else img_f1
-        if os.path.exists(origen_f3):
-            img_tecnica = Image.open(origen_f3).convert('RGBA')
-            caja_delimitadora = img.getbbox()
-
-            if caja_delimitadora:
-                # Recortar la imagen eliminando el fondo vacío
-                imagen_recortada = img.crop(caja_delimitadora)
-                img = imagen_recortada
-            
-            # Recuadro máximo inferior (Ancho max: 240, Alto max: 180)
-            img_tecnica.thumbnail((240, 180))
-            
-            # Centramos la imagen en el espacio derecho junto a los usos recomendados
-            y_centro_f3 = int((y_pos + 10) + (180 - img_tecnica.height) / 2)
-            f3.paste(img_tecnica, (510, y_centro_f3), mask=img_tecnica)
-
-
-        
-        if datos['aplicaciones']:
-            d3.text((50, y_pos + 10), "⚙️ Usos recomendados:", fill=(255, 165, 0), font=font_destaque)
-
-        dibujar_parrafo_dinamico(d3, datos['aplicaciones'], 50, y_pos + 35, font_cuerpo, (200, 200, 200), ancho_max=440, interlineado=22)
-        d3.rectangle([(50, 680), (750, 755)], fill=(0, 210, 255))
-
-        d3.text((80, 705), "💼 ENCUÉNTRANOS EN MERCADOLIBRE O NUESTRO SITIO WEB", fill=(10, 20, 38), font=font_sub)
         aplicar_branding_marcas(f3) 
 
         # 🛠️ Aplicación de logos
